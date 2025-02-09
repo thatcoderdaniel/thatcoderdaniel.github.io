@@ -20,9 +20,3 @@ There is that single subject that I always return to, which is **Communication**
 I have my own podcast studio, where I release podcast videos on a weekly basis. I meet with individuals as interesting as **Naval Ravikant**. Subjects can span from philosophical ideas about life, paths to achieve the greatest version of yourself, and even personal topics such as embracing the realest version of yourself without remorse.
 
 That podcast will bring me around the world, kind of like Lex Fridman does. Want to meet the president of the United States? The popularity and influence of my show will allow me to get that interview. You're curious about a company that delivers high-quality coffee, and you want to sit down with the CEO for a conversation around coffee? Say no more. Let's have it scheduled by tomorrow. Possibilities become endless. The amount of beautiful minds you can meet is also endlessly beautiful.
-
-#
-
----
-
-#
