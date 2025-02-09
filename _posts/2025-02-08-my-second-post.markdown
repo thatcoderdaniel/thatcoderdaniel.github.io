@@ -9,7 +9,7 @@ categories: first-post
 
 I am presently trying to figure out what impassions me most in this life. By reading "Designing Your Life," I have been going through a couple of exercises to help me get there, such as a mindmap.
 
-![Designing Your Life Book Cover]({{ site.baseurl }}/assets/images/mindmap.png)
+![Mindmap]({{ site.baseurl }}/assets/images/mindmap.png)
 
 There is that single subject that I always return to, which is **Communication**. It seems that this is the subject that attracts me most. For instance, having a podcast of my own where I can share my ideas and meet other interesting individuals is something that piques my engagement.
 
