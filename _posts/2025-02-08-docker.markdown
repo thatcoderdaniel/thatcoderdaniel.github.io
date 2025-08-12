@@ -12,6 +12,8 @@ Using KodeKloud's playground to grasp Docker.
 
 # Docker Getting Started
 
+[Getting Started](https://docs.docker.com/compose/gettingstarted/)
+
 Used Docker's docu in conjunction, to help me build things up.
 
 Ingredients:
@@ -190,3 +192,163 @@ def hello():
     count = get_hit_count()
     return f'Hello World! I have been seen {count} times.\n'
 ```
+
+Beware, localhost has entered the chat.
+<a href="/assets/img/localhost8000.png" target="_blank">
+<img src="/assets/img/localhost8000.png" alt="Requirements">
+</a>
+
+```cli
+docker image ls
+```
+
+<a href="/assets/img/dockerimagels.png" target="_blank">
+<img src="/assets/img/dockerimagels.png" alt="Requirements">
+</a>
+
+docker inspect <id>
+
+```yaml
+docker inspect b6755574873e
+[
+    {
+        "Id": "sha256:b6755574873ec7c71e0ac6f6f2b0f761274cc0587916f1365735e45b9e6ddc93",
+        "RepoTags": [
+            "composetest-web:latest"
+        ],
+        "RepoDigests": [],
+        "Parent": "",
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2025-08-12T17:12:34.23518973-04:00",
+        "DockerVersion": "",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "5000/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+                "PYTHON_VERSION=3.10.18",
+                "PYTHON_SHA256=ae665bc678abd9ab6a6e1573d2481625a53719bc517e9a634ed2b9fefae3817f",
+                "FLASK_APP=app.py",
+                "FLASK_RUN_HOST=0.0.0.0"
+            ],
+            "Cmd": [
+                "flask",
+                "run",
+                "--debug"
+            ],
+            "ArgsEscaped": true,
+            "Image": "",
+            "Volumes": null,
+            "WorkingDir": "/code",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "com.docker.compose.project": "composetest",
+                "com.docker.compose.service": "web",
+                "com.docker.compose.version": "2.33.1"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 244409952,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/1b1c13lsq1m57eod2j8aghpqf/diff:/var/lib/docker/overlay2/ryafkkzftsbc4fpa87z7iupfl/diff:/var/lib/docker/overlay2/1d2c8jft6o8kp0pb09dlncot0/diff:/var/lib/docker/overlay2/0088u5l46feb2h18sa0vfdn3u/diff:/var/lib/docker/overlay2/67a0143af2ff3e533beb1b05be3440b1cf25b1ee490058330517001d66ab3985/diff:/var/lib/docker/overlay2/6797dbe66ab972fb125b4ae14c20c8becaf1facd99d9a7480c49daf8bc522de5/diff:/var/lib/docker/overlay2/4171e359dbbb95ce8a6d08614043772d22be1bf6e9cee5069b40b395e3d42581/diff:/var/lib/docker/overlay2/a9067191e0efed5199241c39d02b0ee04a4eb83420097140e99cd7f66a202a0c/diff",
+                "MergedDir": "/var/lib/docker/overlay2/ffjc2onvsrkwkwt86hcp103or/merged",
+                "UpperDir": "/var/lib/docker/overlay2/ffjc2onvsrkwkwt86hcp103or/diff",
+                "WorkDir": "/var/lib/docker/overlay2/ffjc2onvsrkwkwt86hcp103or/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:418dccb7d85a63a6aa574439840f7a6fa6fd2321b3e2394568a317735e867d35",
+                "sha256:7fbb78f789f6d9e6e3b8ec1eeca9f85297305c85839c7d71849e2c99d16eb51c",
+                "sha256:8a50bd160075d50061a5db18c8d78f2dc681c8df00e344b20d740695bcf23377",
+                "sha256:a29817a283cf418020fc7417bc6fca37824fdd6dc4a4561cf47ad3a1c2de71e6",
+                "sha256:6ac39fd483130b26817f08bd26e14d452a26632ddcf24a95903a3a30c975be06",
+                "sha256:671a8157fa6c5c105074fe970d6ea9a2eeb96879ee1f0992243859ef9a7ac1c0",
+                "sha256:df5b7c6dab581633739cc292cf7c041aa7961b8a42084bf348d44e1c72302e64",
+                "sha256:14350e71d52eb6fcf236617b0f3702da7062ea0aa8b605474445a69e36792712",
+                "sha256:f390b9a4c80c3bf5cda7b8b45ad042e125ec720dcbaac4a3388a1e9095a94eaf"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2025-08-12T17:12:36.673334766-04:00"
+        }
+    }
+]
+```
+
+Now, I've added this watch line in my composer.yaml
+
+````yaml
+services:
+  web:
+    build: .
+    ports:
+      - "8000:5000"
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /code
+  redis:
+    image: "redis:alpine"
+    ```
+
+
+````
+
+```
+docker composer watch
+```
+
+```yaml
+docker compose watch
+Compose now can delegate build to bake for better performances
+Just set COMPOSE_BAKE=true
+[+] Building 60.8s (15/15) FINISHED                                            docker:default
+ => [web internal] load build definition from Dockerfile                                 0.1s
+ => => transferring dockerfile: 332B                                                     0.0s
+ => [web] resolve image config for docker-image://docker.io/docker/dockerfile:1         30.1s
+ => CACHED [web] docker-image://docker.io/docker/dockerfile:1@sha256:38387523653efa0039  0.0s
+ => [web internal] load build definition from Dockerfile                                 0.0s
+ => [web internal] load metadata for docker.io/library/python:3.10-alpine               30.2s
+ => [web internal] load .dockerignore                                                    0.0s
+ => => transferring context: 2B                                                          0.0s
+ => [web 1/6] FROM docker.io/library/python:3.10-alpine@sha256:f00e977f6932588d3814f932  0.0s
+ => [web internal] load build context                                                    0.0s
+ => => transferring context: 323B                                                        0.0s
+ => CACHED [web 2/6] WORKDIR /code                                                       0.0s
+ => CACHED [web 3/6] RUN apk add --no-cache gcc musl-dev linux-headers                   0.0s
+ => CACHED [web 4/6] COPY requirements.txt requirements.txt                              0.0s
+ => CACHED [web 5/6] RUN pip install -r requirements.txt                                 0.0s
+ => [web 6/6] COPY . .                                                                   0.1s
+ => [web] exporting to image                                                             0.0s
+ => => exporting layers                                                                  0.0s
+ => => writing image sha256:da33d53f866603eb678742518302b50669e10102b8644c0f02248ba498d  0.0s
+ => => naming to docker.io/library/composetest-web                                       0.0s
+ => [web] resolving provenance for metadata file                                         0.1s
+[+] Running 3/3
+ ✔ web                            Built                                                  0.0s
+ ✔ Container composetest-redis-1  Running                                                0.0s
+ ✔ Container composetest-web-1    Started                                                0.9s
+Watch enabled
+```
+
+Dope!
