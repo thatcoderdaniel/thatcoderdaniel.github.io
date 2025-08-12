@@ -23,3 +23,170 @@ nano requirements.txt
 <a href="/assets/img/requirements.jpg" target="_blank">
   <img src="/assets/img/requirements.jpg" alt="Requirements">
 </a>
+
+```yaml
+nano Dockerfile.txt
+```
+
+```
+# syntax=docker/dockerfile:1
+FROM python:3.10-alpine
+WORKDIR /code
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+COPY . .
+CMD ["flask", "run", "--debug"]
+```
+
+# compose.yaml
+
+```yaml
+services:
+  web:
+    build: .
+    ports:
+      - "8000:5000"
+  redis:
+    image: "redis:alpine"
+```
+
+# Composer Up!
+
+```cli
+docker compose up
+```
+
+```java
+admin@docker-host ➜  docker compose up
+Compose now can delegate build to bake for better performances
+Just set COMPOSE_BAKE=true
+[+] Building 74.0s (15/15) FINISHED                                            docker:default
+ => [web internal] load build definition from Dockerfile                                 0.1s
+ => => transferring dockerfile: 332B                                                     0.1s
+ => [web] resolve image config for docker-image://docker.io/docker/dockerfile:1         30.1s
+ => CACHED [web] docker-image://docker.io/docker/dockerfile:1@sha256:38387523653efa0039  0.0s
+ => [web internal] load build definition from Dockerfile                                 0.0s
+ => [web internal] load metadata for docker.io/library/python:3.10-alpine               30.1s
+ => [web internal] load .dockerignore                                                    0.0s
+ => => transferring context: 2B                                                          0.0s
+ => [web 1/6] FROM docker.io/library/python:3.10-alpine@sha256:f00e977f6932588d3814f932  0.0s
+ => [web internal] load build context                                                    0.0s
+ => => transferring context: 424B                                                        0.0s
+ => CACHED [web 2/6] WORKDIR /code                                                       0.0s
+ => [web 3/6] RUN apk add --no-cache gcc musl-dev linux-headers                          3.8s
+ => [web 4/6] COPY requirements.txt requirements.txt                                     0.1s
+ => [web 5/6] RUN pip install -r requirements.txt                                        6.9s
+ => [web 6/6] COPY . .                                                                   0.1s
+ => [web] exporting to image                                                             2.4s
+ => => exporting layers                                                                  2.4s
+ => => writing image sha256:b6755574873ec7c71e0ac6f6f2b0f761274cc0587916f1365735e45b9e6  0.0s
+ => => naming to docker.io/library/composetest-web                                       0.0s
+ => [web] resolving provenance for metadata file                                         0.0s
+[+] Running 4/4
+ ✔ web                            Built                                                  0.0s
+ ✔ Network composetest_default    Created                                                0.2s
+ ✔ Container composetest-web-1    Created                                                0.0s
+ ✔ Container composetest-redis-1  Created                                                0.0s
+Attaching to redis-1, web-1
+redis-1  | Starting Redis Server
+redis-1  | 1:C 12 Aug 2025 21:12:37.919 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis-1  | 1:C 12 Aug 2025 21:12:37.919 * Redis version=8.2.0, bits=64, commit=00000000, modified=1, pid=1, just started
+redis-1  | 1:C 12 Aug 2025 21:12:37.919 * Configuration loaded
+redis-1  | 1:M 12 Aug 2025 21:12:37.919 * monotonic clock: POSIX clock_gettime
+redis-1  | 1:M 12 Aug 2025 21:12:37.920 * Running mode=standalone, port=6379.
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf> RedisBloom version 8.2.0 (Git=unknown)
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf> Registering configuration options: [
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf>  { bf-error-rate       :      0.01 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf>  { bf-initial-size     :       100 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf>  { bf-expansion-factor :         2 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf>  { cf-bucket-size      :         2 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf>  { cf-initial-size     :      1024 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf>  { cf-max-iterations   :        20 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf>  { cf-expansion-factor :         1 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf>  { cf-max-expansions   :        32 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * <bf> ]
+redis-1  | 1:M 12 Aug 2025 21:12:37.922 * Module 'bf' loaded from /usr/local/lib/redis/modules//redisbloom.so
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> Redis version found by RedisSearch : 8.2.0 - oss
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> RediSearch version 8.2.0 (Git=d81ebce)
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> Low level api version 1 initialized successfully
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> gc: ON, prefix min length: 2, min word length to stem: 4, prefix max expansions: 200, query timeout (ms): 500, timeout policy: return, cursor read size: 1000, cursor max idle (ms): 300000, max doctable size: 1000000, max number of search results:  1000000,
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> Initialized thread pools!
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> Disabled workers threadpool of size 0
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> Subscribe to config changes
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> Enabled role change notification
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> Cluster configuration: AUTO partitions, type: 0, coordinator timeout: 0ms
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * <search> Register write commands
+redis-1  | 1:M 12 Aug 2025 21:12:37.926 * Module 'search' loaded from /usr/local/lib/redis/modules//redisearch.so
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries> RedisTimeSeries version 80200, git_sha=1439d4a439ca9c063e6ef124a510abff09a5d493
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries> Redis version found by RedisTimeSeries : 8.2.0 - oss
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries> Registering configuration options: [
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries>  { ts-compaction-policy   :              }
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries>  { ts-num-threads         :            3 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries>  { ts-retention-policy    :            0 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries>  { ts-duplicate-policy    :        block }
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries>  { ts-chunk-size-bytes    :         4096 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries>  { ts-encoding            :   compressed }
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries>  { ts-ignore-max-time-diff:            0 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries>  { ts-ignore-max-val-diff :     0.000000 }
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries> ]
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries> Detected redis oss
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <timeseries> Enabled diskless replication
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * Module 'timeseries' loaded from /usr/local/lib/redis/modules//redistimeseries.so
+redis-1  | 1:M 12 Aug 2025 21:12:37.927 * <ReJSON> Created new data type 'ReJSON-RL'
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * <ReJSON> version: 80200 git sha: unknown branch: unknown
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * <ReJSON> Exported RedisJSON_V1 API
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * <ReJSON> Exported RedisJSON_V2 API
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * <ReJSON> Exported RedisJSON_V3 API
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * <ReJSON> Exported RedisJSON_V4 API
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * <ReJSON> Exported RedisJSON_V5 API
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * <ReJSON> Enabled diskless replication
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * <ReJSON> Initialized shared string cache, thread safe: false.
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * Module 'ReJSON' loaded from /usr/local/lib/redis/modules//rejson.so
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * <search> Acquired RedisJSON_V5 API
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * Server initialized
+redis-1  | 1:M 12 Aug 2025 21:12:37.928 * Ready to accept connections tcp
+web-1    |  * Serving Flask app 'app.py'
+web-1    |  * Debug mode: on
+web-1    | WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+web-1    |  * Running on all addresses (0.0.0.0)
+web-1    |  * Running on http://127.0.0.1:5000
+web-1    |  * Running on http://172.17.0.3:5000
+web-1    | Press CTRL+C to quit
+web-1    |  * Restarting with stat
+web-1    |  * Debugger is active!
+web-1    |  * Debugger PIN: 590-324-880
+```
+
+Oh, yeah a simple app.py was given by Docker to test this all out.
+
+# app.py
+
+```python
+import time
+
+import redis
+from flask import Flask
+
+app = Flask(__name__)
+cache = redis.Redis(host='redis', port=6379)
+
+def get_hit_count():
+    retries = 5
+    while True:
+        try:
+            return cache.incr('hits')
+        except redis.exceptions.ConnectionError as exc:
+            if retries == 0:
+                raise exc
+            retries -= 1
+            time.sleep(0.5)
+
+@app.route('/')
+def hello():
+    count = get_hit_count()
+    return f'Hello World! I have been seen {count} times.\n'
+```
