@@ -6,3 +6,20 @@ categories: technical
 ---
 
 # KodeKloud
+
+Using KodeKloud's playground to grasp Docker.
+[KK Playground](https://learn.kodekloud.com/user/playgrounds/playground-docker)
+
+# Docker Getting Started
+
+Used Docker's docu in conjunction, to help me build things up.
+
+Ingredients:
+
+```java
+nano requirements.txt
+```
+
+<a href="/assets/img/requirements.jpg" target="_blank">
+  <img src="/assets/img/requirements.jpg" alt="Requirements">
+</a>
