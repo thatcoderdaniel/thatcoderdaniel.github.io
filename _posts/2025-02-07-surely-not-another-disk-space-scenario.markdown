@@ -3,7 +3,7 @@ layout: post
 title: "SadServers: Disk Space Management with LVM"
 date: 2025-02-08 17:17:31 -0500
 categories: technical
-tags: disk volumes lvm logical-volume-management linux-administration
+tags: sadservers disk volumes lvm logical-volume-management linux-administration
 ---
 
 ## Problem Statement
