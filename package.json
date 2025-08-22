@@ -1,0 +1,15 @@
+{
+  "name": "thatcoderdaniel-blog",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tinacms dev -c \"bundle exec jekyll serve\"",
+    "build": "tinacms build && bundle exec jekyll build"
+  },
+  "dependencies": {
+    "tinacms": "^2.2.1"
+  },
+  "devDependencies": {
+    "@tinacms/cli": "^1.10.2",
+    "@types/node": "^22.10.5"
+  }
+}
