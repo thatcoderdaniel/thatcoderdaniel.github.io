@@ -1,0 +1,44 @@
+/* =========================
+   Color Schemes
+   ========================= */
+
+/* Optional: smoothen the switch */
+html
+  transition: background-color .2s linear, color .2s linear
+
+/* =========================
+   Base
+   ========================= */
+body
+  background: var(--background)
+  color: var(--foreground)
+
+a
+  color: var(--link)
+  text-decoration: none
+  &:hover
+    color: var(--link-hover)
+    text-decoration: underline
+
+code, pre
+  background: var(--code-bg)
+  color: var(--code-text)
+  border-radius: 4px
+  padding: 0.2em 0.4em
+
+hr
+  border: 0
+  border-top: 1px solid var(--border)
+  margin: 2em 0
+
+/* Your existing layout rule */
+body > *
+  padding: 1.75em calc(42% - 16rem)
+  padding: clamp(1.5em, 4vw, 1.75em) max(1.5em, calc(42% - 16rem))
+  box-shadow: 0 1px gray(12), 0 1em 2em -1em rgba(light(16), .05)
+
+/* Header/Footer pick up variables */
+header, footer
+  background: var(--background)
+  color: var(--foreground)
+  border-bottom: 1px solid var(--border)

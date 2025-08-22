@@ -1,0 +1,87 @@
+---
+---
+
+/* =========================
+   Color Schemes
+   ========================= */
+:root[data-style="light"] {
+  --background: #ffffff;
+  --foreground: #111111;
+  --link: #0645ad;
+  --link-hover: #0b0080;
+  --code-bg: #f5f5f5;
+  --code-text: #111111;
+  --border: #e0e0e0;
+}
+
+:root[data-style="dark"] {
+  --background: #0f0f0f;
+  --foreground: #f5f5f5;
+  --link: #9ecbff;
+  --link-hover: #cddfff;
+  --code-bg: #1e1e1e;
+  --code-text: #e5e5e5;
+  --border: #333333;
+}
+
+/* Optional: smoothen the switch */
+html {
+  transition: background-color .2s linear, color .2s linear;
+}
+
+/* =========================
+   Imports (SCSS syntax)
+   ========================= */
+@import "utils", "basic", "layout", "classes", "rouge_github";
+
+/* =========================
+   Base
+   ========================= */
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+code,
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  border-radius: 4px;
+  padding: 0.2em 0.4em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2em 0;
+}
+
+/* Your existing layout rule, now in SCSS form */
+body > * {
+  padding: 1.75em calc(42% - 16rem);
+  padding: clamp(1.5em, 4vw, 1.75em) max(1.5em, calc(42% - 16rem));
+  box-shadow: 0 1px gray(12), 0 1em 2em -1em rgba(light(16), .05);
+}
+
+/* Header/Footer pick up variables */
+header,
+footer {
+  background: var(--background);
+  color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Dark tweaks (kept for clarity; variables already change) */
+:root[data-style="dark"] header,
+:root[data-style="dark"] footer {
+  border-bottom: 1px solid var(--border);
+}
