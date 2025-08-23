@@ -268,14 +268,55 @@ footer {
   border-top: 1px solid var(--border-color);
   font-size: 0.875rem;
 }
-
-// HR
-hr {
-  border: 1px solid var(--border-color);
-  margin: 2em 0;
+// Mobile
+@media (max-width: 768px) {
+  nav a {
+    margin-right: 1rem;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  
+  // Prevent horizontal scroll
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  // Responsive containers
+  main {
+    padding: 0 1rem;
+    margin: 2rem auto;
+  }
+  
+  // Fix images
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  // Make tables scrollable
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  // Better code blocks on mobile
+  pre {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+  
+  // Adjust padding
+  body {
+    padding: 0;
+  }
+  
+  header {
+    padding: 1rem 0;
+  }
 }
-
-// Selection
 ::selection {
   background-color: var(--selection);
 }
