@@ -723,3 +723,63 @@ body.dark .lightbox-caption {
     padding: 2rem 20px;
   }
 }
+
+/* FIX CODE BLOCKS ON MOBILE */
+@media (max-width: 768px) {
+  /* Code blocks with horizontal scroll */
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: pre;  /* Keep formatting, don't wrap */
+    margin: 1rem -20px;  /* Negative margin to extend to edges */
+    padding: 1rem 20px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    
+    /* Add scrollbar styling */
+    -webkit-overflow-scrolling: touch;  /* Smooth scrolling on iOS */
+  }
+  
+  /* Inline code should wrap */
+  code:not(pre code) {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+  }
+  
+  /* Alternative: make code blocks slightly smaller */
+  pre code {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  
+  /* Visual indicator that code can be scrolled */
+  pre:after {
+    content: '→';
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: var(--text-light);
+    opacity: 0.5;
+    font-size: 1.2rem;
+  }
+  
+  pre {
+    position: relative;
+  }
+  
+  /* Hide scroll indicator when not needed */
+  pre:not(:hover)::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  pre::-webkit-scrollbar-track {
+    background: var(--code-bg);
+  }
+  
+  pre::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+  }
+}
