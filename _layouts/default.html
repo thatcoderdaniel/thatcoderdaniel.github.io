@@ -23,8 +23,8 @@
           <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
         {% endfor %}
       </div>
-      <button class="theme-toggle" aria-label="Toggle theme">
-        <span class="theme-icon">🌙</span>
+      <button class="theme-toggle" aria-label="Toggle between light and dark theme" role="button" tabindex="0">
+        <span class="theme-icon" aria-hidden="true">🌙</span>
         <span class="theme-text">Theme</span>
       </button>
     </nav>
