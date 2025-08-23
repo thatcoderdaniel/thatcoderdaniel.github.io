@@ -8,7 +8,9 @@ tags: sadservers disk volumes lvm logical-volume-management linux-administration
 
 ## Problem Statement
 
-A program `/home/admin/kihei` fails to run due to insufficient disk space. The program attempts to create a 1.5GB file at `/home/admin/data/newdatafile`, but the system lacks adequate storage.
+A program `/home/admin/kihei` fails to run due to insufficient disk space. 
+
+The program attempts to create a 1.5GB file at `/home/admin/data/newdatafile`, but the system lacks adequate storage.
 
 **Constraint**: Cannot delete the existing `/home/admin/datafile` file.
 
