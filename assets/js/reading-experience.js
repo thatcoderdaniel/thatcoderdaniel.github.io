@@ -72,8 +72,12 @@ class TableOfContents {
     const article = document.querySelector('article');
     if (!article) return;
 
-    const headings = article.querySelectorAll('h2, h3, h4, h5, h6'); // Skip h1 (main title)
-    if (headings.length < 4) return; // Only show TOC for really long posts
+    // Get headings from content div only, not the header
+    const contentDiv = article.querySelector('div');
+    if (!contentDiv) return;
+    
+    const headings = contentDiv.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    if (headings.length < 3) return; // Show TOC for posts with 3+ headings
 
     this.generateTOC(headings);
   }
