@@ -665,3 +665,61 @@ body.dark .lightbox-caption {
     margin-bottom: 0.5rem;
   }
 }
+
+/* FIX RIGHT SIDE PADDING ON MOBILE */
+@media (max-width: 768px) {
+  /* Ensure equal padding on both sides */
+  body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+  }
+  
+  main, article, .content, .post-content {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure all text elements respect padding */
+  p, h1, h2, h3, h4, h5, h6, ul, ol, li, blockquote {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Fix for any full-width elements */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Specific fix for paragraphs */
+  p {
+    display: block;
+    width: 100%;
+    margin: 1.25rem 0;
+  }
+  
+  /* Ensure consistent container width */
+  .container, .wrapper {
+    padding: 0 20px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Header padding */
+  header {
+    padding: 1rem 20px;
+  }
+  
+  /* Footer padding */
+  footer {
+    padding: 2rem 20px;
+  }
+}
