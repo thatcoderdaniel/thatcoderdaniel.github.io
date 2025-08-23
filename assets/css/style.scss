@@ -705,15 +705,16 @@ body.dark .lightbox-caption {
     margin-top: 3rem;
   }
   
-  /* Hide nav links on mobile - you might want a hamburger menu instead */
-  nav a:not(:first-child) {
-    display: none;
+  /* Keep nav links visible - they wrap naturally on mobile */
+  nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
   }
   
-  /* Or show them in a column */
-  nav {
-    flex-direction: column;
-    align-items: flex-start;
+  nav a {
+    margin-right: 1rem;
   }
   
   nav div {
