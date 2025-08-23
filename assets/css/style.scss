@@ -317,19 +317,30 @@ blockquote {
   margin: 1.25em 0;
 }
 
-// Code
+// Code - Enhanced for mobile readability
 pre, code {
-  font-family: "SF Mono", Monaco, monospace;
+  font-family: "SF Mono", "Monaco", "Cascadia Code", "Roboto Mono", "Consolas", "Courier New", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+// Inline code
 code {
   background-color: var(--code-bg);
   border: 1px solid var(--border-color);
   border-radius: 4px;
   padding: 0.125em 0.375em;
   font-size: 0.875em;
+  color: var(--text-color);
+  word-break: break-word;
+  
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+    padding: 0.2em 0.4em;
+  }
 }
 
+// Code blocks
 pre {
   background-color: var(--code-bg);
   border: 1px solid var(--border-color);
@@ -337,12 +348,119 @@ pre {
   padding: 1.25rem;
   overflow-x: auto;
   margin: 1.5rem 0;
+  position: relative;
+  line-height: 1.4;
+  
+  // Mobile-specific improvements
+  @media (max-width: 768px) {
+    margin: 1rem -1ch; // Extend to screen edges
+    border-radius: 0; // Remove border radius on mobile
+    border-left: none;
+    border-right: none;
+    padding: 1rem 1ch;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    
+    // Better scrolling on mobile
+    -webkit-overflow-scrolling: touch;
+    
+    // Add subtle scroll indicator
+    &::after {
+      content: "→ scroll";
+      position: absolute;
+      right: 1rem;
+      top: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-light);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+    padding: 0.875rem 1ch;
+  }
 }
 
 pre code {
   border: none;
   padding: 0;
   background: transparent;
+  font-size: inherit;
+  color: inherit;
+  word-break: normal;
+  white-space: pre;
+}
+
+// Command line / terminal blocks
+pre.terminal,
+pre[class*="language-bash"],
+pre[class*="language-shell"],
+pre[class*="language-terminal"] {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  border-color: #333;
+  
+  [data-theme="light"] & {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+  }
+  
+  @media (max-width: 768px) {
+    &::before {
+      content: "$ ";
+      color: #98c379;
+      font-weight: bold;
+    }
+  }
+}
+
+// Language labels for code blocks
+pre[class*="language-"]::before {
+  content: attr(class);
+  content: attr(data-lang);
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 0.7rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  opacity: 0.7;
+  
+  @media (max-width: 768px) {
+    display: none; // Hide on mobile to save space
+  }
+}
+
+// Copy button area (for future enhancement)
+pre {
+  &:hover {
+    .copy-button {
+      opacity: 1;
+    }
+  }
+}
+
+// Improve table formatting in code contexts
+table code {
+  background: transparent;
+  border: none;
+  padding: 0.125em 0.25em;
+  font-size: 0.8em;
+}
+
+// Better wrapping for long file paths and URLs in code
+code {
+  .path,
+  .url {
+    word-break: break-all;
+    
+    @media (max-width: 768px) {
+      display: inline-block;
+      max-width: 100%;
+    }
+  }
 }
 
 // Images
@@ -357,27 +475,219 @@ p {
   margin-bottom: 1.5rem;
 }
 
-// Lists
+// Lists - Enhanced for technical content
 li {
   margin: 0.5em 0;
+  line-height: 1.6;
+  
+  @media (max-width: 768px) {
+    margin: 0.75em 0;
+    line-height: 1.7;
+  }
 }
 
-// Tables
+// Nested lists
+ul, ol {
+  margin: 1em 0;
+  padding-left: 2rem;
+  
+  @media (max-width: 768px) {
+    padding-left: 1.5rem;
+    margin: 0.75em 0;
+  }
+  
+  ul, ol {
+    margin: 0.5em 0;
+    
+    @media (max-width: 768px) {
+      margin: 0.25em 0;
+    }
+  }
+}
+
+// Code in lists
+li code {
+  background-color: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  padding: 0.1em 0.3em;
+  font-size: 0.85em;
+  
+  @media (max-width: 768px) {
+    font-size: 0.8em;
+    word-break: break-word;
+  }
+}
+
+// Step-by-step lists (common in technical posts)
+ol.steps {
+  counter-reset: step;
+  
+  li {
+    counter-increment: step;
+    margin: 1.5em 0;
+    padding: 1rem;
+    background: var(--code-bg);
+    border-left: 4px solid var(--link-color);
+    border-radius: 0 8px 8px 0;
+    position: relative;
+    
+    @media (max-width: 768px) {
+      margin: 1rem -1ch;
+      border-radius: 0;
+      border-left-width: 3px;
+      padding: 0.875rem 1ch;
+    }
+    
+    &::before {
+      content: "Step " counter(step);
+      font-weight: bold;
+      color: var(--link-color);
+      font-size: 0.875em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+// Command lists (common in cloud/devops posts)
+ul.commands li,
+ol.commands li {
+  font-family: "SF Mono", "Monaco", monospace;
+  background: var(--code-bg);
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  border-left: 3px solid var(--link-color);
+  
+  @media (max-width: 768px) {
+    margin: 0.5rem -1ch;
+    border-radius: 0;
+    padding: 0.5rem 1ch;
+    font-size: 0.85rem;
+  }
+}
+
+// Tables - Enhanced for mobile
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 1.5em 0;
+  font-size: 0.9rem;
+  
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    margin: 1rem -1ch;
+    width: calc(100% + 2ch);
+    
+    // Enable horizontal scrolling for wide tables
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    
+    // Reset table display for mobile
+    thead, tbody, th, td, tr {
+      display: block;
+    }
+    
+    // Hide table headers on mobile (we'll show them as labels)
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+    
+    // Style table rows as cards on mobile
+    tbody tr {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: var(--bg-color);
+      display: block;
+      width: auto;
+      white-space: normal;
+    }
+    
+    // Show data labels on mobile
+    tbody td {
+      border: none;
+      position: relative;
+      padding-left: 30%;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      word-wrap: break-word;
+      white-space: normal;
+      
+      &::before {
+        content: attr(data-label) ": ";
+        position: absolute;
+        left: 0;
+        width: 28%;
+        font-weight: bold;
+        color: var(--text-color);
+        text-align: left;
+      }
+    }
+  }
+  
+  @media (min-width: 769px) {
+    // Desktop table styles
+    thead, tbody, th, td, tr {
+      display: table-row-group;
+    }
+    
+    thead tr {
+      display: table-row;
+    }
+    
+    tbody tr {
+      display: table-row;
+    }
+    
+    th, td {
+      display: table-cell;
+    }
+  }
 }
 
 table th,
 table td {
-  padding: 0.5em;
+  padding: 0.75em;
   border: 1px solid var(--border-color);
+  text-align: left;
+  vertical-align: top;
+  
+  @media (max-width: 768px) {
+    padding: 0.5em;
+  }
 }
 
 table th {
   background: var(--code-bg);
   font-weight: 600;
+  color: var(--text-color);
+}
+
+// Special styling for code tables (command references, etc.)
+table.code-table,
+table[class*="highlight"] {
+  font-family: "SF Mono", "Monaco", "Cascadia Code", monospace;
+  font-size: 0.85rem;
+  
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+  }
+  
+  td code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+  }
 }
 
 // Post list - Enhanced design
