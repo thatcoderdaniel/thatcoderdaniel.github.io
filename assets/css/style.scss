@@ -80,27 +80,24 @@ h1 { font-size: 2.25rem; }
 h2 { font-size: 1.75rem; }
 h3 { font-size: 1.375rem; }
 
-// Site logo
+// Site logo - clean and simple
 .site-logo {
   display: inline-flex;
   align-items: center;
   text-decoration: none !important;
-  font-weight: 700;
-  font-size: 1.25rem;
+  font-weight: normal;
+  font-size: 1.1rem;
   color: var(--text-color) !important;
-  transition: all 0.2s ease;
   
   &:hover {
-    color: var(--link-color) !important;
-    transform: translateY(-1px);
+    color: var(--text-color) !important;
+    text-decoration: none !important;
   }
 }
 
 .logo-text {
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--link-color);
-  transition: color 0.2s ease;
+  font-weight: normal;
+  color: var(--text-color);
 }
 
 // Theme toggle
