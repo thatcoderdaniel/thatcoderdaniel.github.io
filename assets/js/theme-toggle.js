@@ -39,14 +39,23 @@
     const initialTheme = getTheme();
     setTheme(initialTheme);
     
-    // Add click handlers to all toggle buttons
+    // Add click handlers to all toggle buttons - iPhone optimized
     document.querySelectorAll('.theme-toggle').forEach(toggle => {
-      toggle.addEventListener('click', function(e) {
+      // Better iPhone support with multiple event types
+      function handleToggle(e) {
         e.preventDefault();
+        e.stopPropagation();
         const current = document.documentElement.getAttribute('data-theme') || 'light';
         const next = current === 'dark' ? 'light' : 'dark';
         setTheme(next);
-      });
+      }
+      
+      toggle.addEventListener('click', handleToggle);
+      toggle.addEventListener('touchend', handleToggle);
+      
+      // iPhone fix: ensure button is focusable
+      toggle.setAttribute('tabindex', '0');
+      toggle.style.cursor = 'pointer';
     });
   });
   
