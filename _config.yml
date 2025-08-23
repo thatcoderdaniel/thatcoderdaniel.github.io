@@ -19,3 +19,16 @@ plugins:
   - jekyll-feed
 
 permalink: /:year/:month/:title.html
+
+# Markdown processing
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+
+# Highlighter
+highlighter: rouge

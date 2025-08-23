@@ -406,23 +406,63 @@ code {
   }
 }
 
-// Simple clean code blocks
+// Professional code blocks with proper visibility
 pre {
-  background-color: var(--code-bg);
+  background-color: var(--code-bg) !important;
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  padding: 1rem;
+  padding: 1.25rem;
   overflow-x: auto;
   margin: 1.5rem 0;
-  line-height: 1.5;
+  line-height: 1.6;
   font-size: 0.875rem;
-  font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
-  color: var(--code-text);
+  font-family: 'Monaco', 'Consolas', 'Courier New', 'Liberation Mono', monospace;
+  color: var(--code-text) !important;
+  white-space: pre;
+  word-wrap: normal;
+  max-width: 100%;
+  
+  // Ensure horizontal scrolling works properly
+  -webkit-overflow-scrolling: touch;
+  
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  [data-theme="dark"] & {
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  }
   
   @media (max-width: 768px) {
     font-size: 0.8rem;
-    padding: 0.875rem;
-    margin: 1rem 0;
+    padding: 1rem;
+    margin: 1.25rem 0;
+    border-radius: 4px;
   }
 }
 
@@ -523,46 +563,87 @@ code {
   }
 }
 
-// Simple Rouge highlighter styling
+// Professional syntax highlighting with Rouge
 .highlighter-rouge {
   margin: 1.5rem 0;
+  border-radius: 6px;
+  overflow: hidden;
+  
+  @media (max-width: 768px) {
+    margin: 1.25rem 0;
+  }
 }
 
 .highlight {
-  background: var(--code-bg);
+  background: var(--code-bg) !important;
   border: 1px solid var(--border-color);
   border-radius: 6px;
+  position: relative;
   
   pre {
     background: transparent !important;
     border: none !important;
+    border-radius: 0 !important;
     margin: 0 !important;
-    padding: 1rem !important;
-    color: var(--code-text);
+    padding: 1.25rem !important;
+    color: var(--code-text) !important;
+    font-family: 'Monaco', 'Consolas', 'Courier New', 'Liberation Mono', monospace;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre;
+    
+    // Ensure syntax highlighting colors are visible
+    .k, .kd, .kn, .kp, .kr, .kt { color: #0066cc !important; } // Keywords
+    .s, .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss { color: #009900 !important; } // Strings
+    .c, .cm, .cp, .c1, .cs { color: #999999 !important; font-style: italic; } // Comments
+    .n, .na, .nb, .nc, .no, .nd, .ni, .ne, .nf, .nl, .nn, .nt, .nv { color: var(--code-text) !important; } // Names
+    .m, .mf, .mh, .mi, .mo { color: #ff6600 !important; } // Numbers
+    
+    [data-theme="dark"] & {
+      .k, .kd, .kn, .kp, .kr, .kt { color: #66b3ff !important; }
+      .s, .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss { color: #66ff99 !important; }
+      .c, .cm, .cp, .c1, .cs { color: #cccccc !important; }
+      .m, .mf, .mh, .mi, .mo { color: #ffaa66 !important; }
+    }
     
     @media (max-width: 768px) {
-      padding: 0.875rem !important;
+      padding: 1rem !important;
       font-size: 0.8rem !important;
     }
   }
 }
 
-// Simple inline code - fix overlapping
+// Professional inline code and path formatting
 code {
-  background-color: var(--code-bg);
+  background-color: var(--code-bg) !important;
   border: 1px solid var(--border-color);
-  border-radius: 3px;
-  padding: 0.2em 0.4em;
-  font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
-  font-size: 0.85em;
-  color: var(--code-text);
-  word-break: break-word;
-  white-space: normal;
+  border-radius: 4px;
+  padding: 0.25em 0.5em;
+  font-family: 'Monaco', 'Consolas', 'Courier New', 'Liberation Mono', monospace;
+  font-size: 0.875em;
+  color: var(--code-text) !important;
+  font-weight: 500;
+  
+  // Prevent code from breaking awkwardly
+  white-space: nowrap;
+  
+  // Allow breaking at forward slashes for paths
+  word-break: normal;
+  
+  // Special handling for long paths
+  &[data-path], &:contains("/") {
+    white-space: pre-wrap;
+    word-break: break-after-slash;
+  }
   
   @media (max-width: 768px) {
     font-size: 0.8em;
-    padding: 0.15em 0.3em;
-    word-break: break-all;
+    padding: 0.2em 0.4em;
+    
+    // Allow breaking on mobile for very long paths
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 }
 
@@ -574,6 +655,41 @@ pre code {
   box-shadow: none !important;
   font-size: inherit !important;
   color: inherit !important;
+  white-space: inherit !important;
+  word-break: inherit !important;
+}
+
+// Special formatting for filesystem paths
+code[title*=\"path\"], 
+code:matches(/^\\/[a-zA-Z0-9_\\-\\/]+$/),
+.path {
+  background-color: #f1f3f4 !important;
+  border-color: #d0d7de !important;
+  
+  [data-theme=\"dark\"] & {
+    background-color: #21262d !important;
+    border-color: #30363d !important;
+  }
+}
+
+// Ensure output blocks are clearly visible
+.language-text .highlight,
+.language-output .highlight {
+  background: #f8f9fa !important;
+  border-color: #e1e4e8 !important;
+  
+  [data-theme=\"dark\"] & {
+    background: #161b22 !important;
+    border-color: #30363d !important;
+  }
+  
+  pre {
+    color: #24292e !important;
+    
+    [data-theme=\"dark\"] & {
+      color: #e6edf3 !important;
+    }
+  }
 }
 
 // Remove language labels for cleaner look
@@ -581,15 +697,48 @@ pre code {
   display: none;
 }
 
-// Simple terminal styling
+// Professional terminal styling
 .language-bash .highlight,
 .language-shell .highlight,
 .language-terminal .highlight {
-  background: #2d3748;
+  background: #1e2124 !important;
+  border-color: #36393f !important;
   
   pre {
-    color: #f7fafc !important;
+    color: #f0f0f0 !important;
     background: transparent !important;
+    
+    // Terminal-specific syntax highlighting
+    .gp { color: #7fb347 !important; font-weight: bold; } // Prompt
+    .go { color: #f0f0f0 !important; } // Output
+    .c { color: #b0b0b0 !important; font-style: italic; } // Comments
+  }
+  
+  // Add a subtle terminal indicator
+  &::before {
+    content: "$";
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: #7fb347;
+    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 0.875rem;
+    pointer-events: none;
+    
+    @media (max-width: 768px) {
+      top: 0.875rem;
+      left: 0.875rem;
+      font-size: 0.8rem;
+    }
+  }
+  
+  pre {
+    padding-left: 2.5rem !important;
+    
+    @media (max-width: 768px) {
+      padding-left: 2.25rem !important;
+    }
   }
 }
 
