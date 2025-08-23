@@ -1,0 +1,117 @@
+// Original no-style-please theme by riggraz
+// https://github.com/riggraz/no-style-please
+
+// Variables
+$font-size: calc(0.8rem + 0.2vw);
+$font-family: "PT Sans", system-ui, sans-serif;
+$line-height: 1.6;
+$link-color: light-dark(#46f, #38f);
+
+// Base styling
+body {
+  font: 16px / #{$line-height} $font-family;
+  font-size: $font-size;
+  max-width: 60rem;
+  margin: auto;
+  padding: 2rem;
+}
+
+// Links
+a {
+  color: $link-color;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Headers
+h1, h2, h3, h4, h5, h6 {
+  margin: 1.5rem 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+// Paragraphs
+p {
+  margin: 1rem 0;
+  text-align: justify;
+}
+
+// Lists
+ul, ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+li {
+  margin: 0.3rem 0;
+}
+
+// Code blocks - ORIGINAL AUTHOR'S IMPLEMENTATION
+code {
+  color: white;
+  background: black;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+  font-size: 0.9em;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+}
+
+div.highlighter-rouge code {
+  display: block;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 5px;
+}
+
+// Pre blocks
+pre {
+  background: black;
+  color: white;
+  border-radius: 5px;
+  margin: 1.5rem 0;
+  padding: 0.8rem 1.2rem;
+  overflow-x: auto;
+  font-size: 0.8em;
+}
+
+// Tables
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+// Images
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+}
+
+// Blockquotes
+blockquote {
+  border-left: 3px solid #ccc;
+  padding-left: 1.5rem;
+  margin: 1.25rem 0;
+  font-style: italic;
+}
+
+// HR
+hr {
+  border: 1px solid #ccc;
+  margin: 2rem 0;
+}
