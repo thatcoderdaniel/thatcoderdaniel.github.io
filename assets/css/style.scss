@@ -406,52 +406,23 @@ code {
   }
 }
 
-// Beautiful code blocks with shadows and proper styling
+// Simple clean code blocks
 pre {
-  background-color: var(--code-bg) !important;
+  background-color: var(--code-bg);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: 6px;
+  padding: 1rem;
   overflow-x: auto;
-  margin: 2rem 0;
-  position: relative;
-  line-height: 1.6;
+  margin: 1.5rem 0;
+  line-height: 1.5;
   font-size: 0.875rem;
-  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', monospace;
-  color: var(--code-text) !important;
-  white-space: pre;
-  word-wrap: normal;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s ease;
-  
-  &:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  [data-theme="dark"] & {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    
-    &:hover {
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    }
-  }
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+  color: var(--code-text);
   
   @media (max-width: 768px) {
-    margin: 1.5rem 0;
-    padding: 1.25rem;
     font-size: 0.8rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    -webkit-overflow-scrolling: touch;
-    
-    &::-webkit-scrollbar {
-      height: 4px;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 2px;
-    }
+    padding: 0.875rem;
+    margin: 1rem 0;
   }
 }
 
@@ -552,92 +523,46 @@ code {
   }
 }
 
-// Beautiful Rouge highlighter styling
+// Simple Rouge highlighter styling
 .highlighter-rouge {
-  margin: 2rem 0;
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s ease;
-  
-  &:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  [data-theme="dark"] & {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    
-    &:hover {
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    margin: 1.5rem 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
+  margin: 1.5rem 0;
 }
 
 .highlight {
-  background: var(--code-bg) !important;
+  background: var(--code-bg);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  position: relative;
-  
-  @media (max-width: 768px) {
-    border-radius: 8px;
-  }
+  border-radius: 6px;
   
   pre {
     background: transparent !important;
     border: none !important;
-    border-radius: 0 !important;
     margin: 0 !important;
-    padding: 1.5rem !important;
-    color: var(--code-text) !important;
-    font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', monospace;
-    line-height: 1.6;
-    box-shadow: none !important;
+    padding: 1rem !important;
+    color: var(--code-text);
     
     @media (max-width: 768px) {
-      padding: 1.25rem !important;
+      padding: 0.875rem !important;
       font-size: 0.8rem !important;
     }
   }
 }
 
-// Beautiful inline code styling
+// Simple inline code - fix overlapping
 code {
-  background-color: var(--code-bg) !important;
+  background-color: var(--code-bg);
   border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 0.25em 0.5em;
-  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', monospace;
-  font-size: 0.875em;
-  color: var(--code-text) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s ease;
-  font-weight: 500;
-  
-  &:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
-  
-  [data-theme="dark"] & {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    
-    &:hover {
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-    }
-  }
+  border-radius: 3px;
+  padding: 0.2em 0.4em;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+  font-size: 0.85em;
+  color: var(--code-text);
+  word-break: break-word;
+  white-space: normal;
   
   @media (max-width: 768px) {
     font-size: 0.8em;
-    padding: 0.2em 0.4em;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 0.15em 0.3em;
+    word-break: break-all;
   }
 }
 
@@ -656,37 +581,15 @@ pre code {
   display: none;
 }
 
-// Beautiful terminal/bash styling
+// Simple terminal styling
 .language-bash .highlight,
 .language-shell .highlight,
 .language-terminal .highlight {
-  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
-  border: 1px solid #4a5568 !important;
-  position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #68d391 0%, #4fd1c7 50%, #63b3ed 100%);
-    border-radius: 12px 12px 0 0;
-    
-    @media (max-width: 768px) {
-      border-radius: 8px 8px 0 0;
-    }
-  }
+  background: #2d3748;
   
   pre {
     color: #f7fafc !important;
     background: transparent !important;
-    padding-top: 2rem !important;
-    
-    @media (max-width: 768px) {
-      padding-top: 1.75rem !important;
-    }
   }
 }
 
