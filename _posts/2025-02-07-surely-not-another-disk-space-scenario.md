@@ -113,7 +113,7 @@ sudo mkfs.ext4 /dev/my_volume_group/my_logical_volume
 
 ### Step 5: Mount at Target Location
 
-The application expects to write to `/home/admin/data/`, so mount the logical volume there:
+The application expects to write to `/home/admin/data`, so mount the logical volume there:
 
 ```bash
 sudo mkdir -p /home/admin/data

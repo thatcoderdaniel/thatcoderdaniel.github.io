@@ -1,0 +1,36 @@
+# GCP Audit Logging Configuration
+# This enables free audit logging for security monitoring
+# Apply with: gcloud logging sinks create [SINK_NAME] [DESTINATION] --log-filter="[FILTER]"
+
+# Basic security monitoring filters (all free tier):
+
+# 1. Monitor failed authentication attempts
+name: "security-auth-failures"
+filter: |
+  protoPayload.authenticationInfo.principalEmail!=""
+  AND protoPayload.status.code!=0
+  AND resource.type="gcs_bucket"
+
+# 2. Monitor admin access to TinaCMS
+name: "admin-access-monitor"  
+filter: |
+  resource.type="gcs_bucket"
+  AND protoPayload.resourceName:"admin"
+  AND httpRequest.requestMethod!=""
+
+# 3. Monitor unusual traffic patterns
+name: "traffic-anomalies"
+filter: |
+  resource.type="gcs_bucket"
+  AND httpRequest.status>=400
+  AND httpRequest.requestUrl:"itsdanmanole.com"
+
+# 4. Monitor bucket policy changes
+name: "bucket-policy-changes"
+filter: |
+  resource.type="gcs_bucket" 
+  AND protoPayload.methodName:"storage.setIamPermissions"
+  OR protoPayload.methodName:"storage.buckets.setIamPolicy"
+
+# To enable these, run:
+# gcloud logging sinks create security-monitoring bigquery://PROJECT_ID:security_dataset.security_logs --log-filter="[above filters]"
