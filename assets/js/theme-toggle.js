@@ -20,7 +20,16 @@
     
     // Update all toggle buttons
     document.querySelectorAll('.theme-toggle').forEach(toggle => {
-      toggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+      const icon = toggle.querySelector('.theme-icon');
+      const text = toggle.querySelector('.theme-text');
+      
+      if (icon) {
+        icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+      }
+      if (text) {
+        text.textContent = theme === 'dark' ? 'Light' : 'Dark';
+      }
+      
       toggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
     });
   }

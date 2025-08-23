@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   <script src="{{ '/assets/js/theme-toggle.js' | relative_url }}"></script>
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
@@ -13,14 +16,19 @@
   <header>
     <nav>
       <div>
-        <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+        <a href="{{ '/' | relative_url }}" class="site-logo">
+          <span class="logo-text">{{ site.title }}</span>
+        </a>
         {% for item in site.navigation %}
           {% unless item.url == '/' %}
             <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
           {% endunless %}
         {% endfor %}
       </div>
-      <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+        <span class="theme-text">Theme</span>
+      </button>
     </nav>
   </header>
   
@@ -31,5 +39,8 @@
   <footer style="text-align: center; padding: 2rem 0; color: var(--text-light);">
     <small>© {{ 'now' | date: '%Y' }} {{ site.author | default: site.title }}</small>
   </footer>
-  <script src="{{ "/assets/js/lightbox.js" | relative_url }}"></script></body>
+  <script src="{{ "/assets/js/lightbox.js" | relative_url }}"></script>
+  <script src="{{ "/assets/js/reading-experience.js" | relative_url }}"></script>
+  <script src="{{ "/assets/js/code-enhancements.js" | relative_url }}"></script>
+</body>
 </html>
