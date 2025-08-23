@@ -12,6 +12,7 @@
   --link-color: #0056b3;
   --border-color: #e1e5e9;
   --code-bg: #f8f9fa;
+  --code-text: #24292e;
   --header-bg: rgba(255, 255, 255, 0.95);
   --selection: rgba(0, 86, 179, 0.15);
   --hover-bg: #f5f6f7;
@@ -25,6 +26,7 @@
   --link-color: #79c0ff;       
   --border-color: #30363d;     
   --code-bg: #161b22;          
+  --code-text: #f0f6fc;
   --header-bg: rgba(13, 17, 23, 0.95);        
   --selection: rgba(121, 192, 255, 0.25);
   --hover-bg: #21262d;
@@ -404,9 +406,8 @@ code {
   }
 }
 
-// Code blocks - Target actual Rouge HTML structure
-pre,
-.highlight pre {
+// Code blocks - Clean and readable
+pre {
   background-color: var(--code-bg) !important;
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -414,48 +415,28 @@ pre,
   overflow-x: auto;
   margin: 1.5rem 0;
   position: relative;
-  line-height: 1.4;
+  line-height: 1.5;
   font-size: 0.875rem;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  color: var(--code-text) !important;
+  white-space: pre;
+  word-wrap: normal;
   
-  // Mobile-specific improvements
   @media (max-width: 768px) {
-    margin: 1rem 0 !important;
-    border-radius: 8px !important;
-    padding: 1.25rem 1rem !important;
-    font-size: 0.875rem !important;
-    line-height: 1.6 !important;
-    max-width: 100%;
-    overflow-x: auto;
-    
-    // Better scrolling on mobile
+    margin: 1rem 0;
+    padding: 1rem;
+    font-size: 0.8rem;
+    line-height: 1.6;
     -webkit-overflow-scrolling: touch;
     
-    // Improved scrollbars
     &::-webkit-scrollbar {
-      height: 6px;
-    }
-    
-    &::-webkit-scrollbar-track {
-      background: var(--code-bg);
-      border-radius: 3px;
+      height: 4px;
     }
     
     &::-webkit-scrollbar-thumb {
       background: var(--border-color);
-      border-radius: 3px;
-      opacity: 0.6;
+      border-radius: 2px;
     }
-    
-    &::-webkit-scrollbar-thumb:hover {
-      background: var(--text-light);
-    }
-  }
-  
-  @media (max-width: 480px) {
-    font-size: 0.8rem !important;
-    padding: 1rem 0.75rem !important;
-    margin: 1rem 0 !important;
-    border-radius: 6px !important;
   }
 }
 
@@ -556,86 +537,48 @@ code {
   }
 }
 
-// Kubernetes-style Mobile Code Formatting
+// Rouge highlighter styling
 .highlighter-rouge {
-  position: relative;
   margin: 1.5rem 0;
   border-radius: 8px;
-  overflow: hidden;
   
   @media (max-width: 768px) {
     margin: 1rem 0;
-    border-radius: 6px;
   }
 }
 
 .highlight {
-  position: relative;
-  background: var(--code-bg);
+  background: var(--code-bg) !important;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  
-  @media (max-width: 768px) {
-    border-radius: 6px;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
   
   pre {
     background: transparent !important;
     border: none !important;
-    border-radius: 0 !important;
     margin: 0 !important;
     padding: 1.25rem !important;
-    overflow-x: auto;
-    font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', monospace;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: var(--text-color);
-    -webkit-overflow-scrolling: touch;
+    color: var(--code-text) !important;
     
     @media (max-width: 768px) {
       padding: 1rem !important;
-      font-size: 0.875rem !important; // Kubernetes uses consistent 14px
-      line-height: 1.6 !important;
-      
-      // Kubernetes-style mobile scrolling
-      &::-webkit-scrollbar {
-        height: 4px;
-      }
-      
-      &::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      
-      &::-webkit-scrollbar-thumb {
-        background-color: var(--border-color);
-        border-radius: 2px;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      padding: 0.875rem !important;
-      font-size: 0.8125rem !important; // 13px
+      font-size: 0.8rem !important;
     }
   }
 }
 
-// Kubernetes-style inline code
+// Inline code styling
 code {
   background-color: var(--code-bg) !important;
   border: 1px solid var(--border-color);
   border-radius: 4px;
   padding: 0.2em 0.4em;
-  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', monospace;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   font-size: 0.875em;
-  color: var(--text-color);
+  color: var(--code-text) !important;
   
   @media (max-width: 768px) {
-    font-size: 0.8125em !important; // Slightly smaller on mobile like k8s
+    font-size: 0.8em;
     padding: 0.15em 0.35em;
-    border: none;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -649,48 +592,20 @@ pre code {
   color: inherit !important;
 }
 
-// Kubernetes-style language labels
+// Remove language labels for cleaner look
 .highlighter-rouge::before {
-  content: attr(class);
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: var(--text-light);
-  color: var(--bg-color);
-  font-size: 0.75rem;
-  padding: 0.25rem 0.75rem;
-  border-bottom-left-radius: 4px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  z-index: 2;
-  opacity: 0.8;
-  
-  @media (max-width: 768px) {
-    display: none; // Hide on mobile for cleaner look
-  }
+  display: none;
 }
 
-// Terminal/bash specific styling (like k8s kubectl examples)
+// Terminal/bash specific styling
 .language-bash .highlight,
 .language-shell .highlight,
 .language-terminal .highlight {
-  background: #2d3748;
+  background: #2d3748 !important;
   
   pre {
-    color: #e2e8f0;
-    
-    // Add terminal prompt
-    &::before {
-      content: "$ ";
-      color: #68d391;
-      font-weight: bold;
-      
-      @media (max-width: 768px) {
-        content: "$ ";
-        opacity: 0.8;
-      }
-    }
+    color: #f7fafc !important;
+    background: transparent !important;
   }
 }
 
