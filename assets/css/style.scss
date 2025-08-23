@@ -661,7 +661,6 @@ pre code {
 
 // Special formatting for filesystem paths
 code[title*=\"path\"], 
-code:matches(/^\\/[a-zA-Z0-9_\\-\\/]+$/),
 .path {
   background-color: #f1f3f4 !important;
   border-color: #d0d7de !important;
