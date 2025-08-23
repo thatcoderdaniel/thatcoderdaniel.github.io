@@ -169,10 +169,21 @@ nav a {
   font-weight: 600;
   margin-right: 1.75rem;
   font-size: 0.95rem;
+  display: inline-block !important;
+  visibility: visible !important;
 }
 
 nav a:hover {
   color: var(--link-color);
+}
+
+/* Force navigation visibility - override any conflicts */
+nav div a,
+nav a[href="/"],
+nav a[href="/archive.html"] {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 // Main
