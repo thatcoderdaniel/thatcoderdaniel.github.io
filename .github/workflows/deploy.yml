@@ -33,12 +33,12 @@ jobs:
     - name: Install Jekyll dependencies
       run: |
         echo "Installing gems from Gemfile.production..."
-        BUNDLE_GEMFILE=Gemfile.production bundle install --jobs 4 --retry 3 --verbose
+        BUNDLE_GEMFILE=Gemfile.deploy bundle install --jobs 4 --retry 3
         
     - name: Build Jekyll site
       run: |
         echo "Building Jekyll site..."
-        BUNDLE_GEMFILE=Gemfile.production JEKYLL_ENV=production bundle exec jekyll build --verbose
+        BUNDLE_GEMFILE=Gemfile.deploy bundle exec jekyll build
         
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
