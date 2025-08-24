@@ -11,7 +11,7 @@ env:
   GCP_PROJECT_ID: dmisblogging-prod
   GCS_BUCKET: blog.itsdanmanole.com
   CDN_LB_NAME: blog-lb
-  RUBY_VERSION: '3.0'
+  RUBY_VERSION: '3.1'
 
 jobs:
   deploy:
