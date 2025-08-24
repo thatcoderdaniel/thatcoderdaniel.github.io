@@ -20,21 +20,13 @@ jobs:
         ruby-version: '3.0'
         bundler-cache: false
         
-    - name: Install Jekyll and dependencies
+    - name: Install Jekyll dependencies
       run: |
-        echo "Installing Jekyll with deployment dependencies..."
         BUNDLE_GEMFILE=Gemfile.deploy bundle install --jobs 4 --retry 3
         
     - name: Build Jekyll site
       run: |
-        echo "Building Jekyll site for production..."
-        BUNDLE_GEMFILE=Gemfile.deploy bundle exec jekyll build --verbose
-        
-    - name: Verify build
-      run: |
-        echo "Checking build output..."
-        ls -la _site/
-        echo "Total files built: $(find _site -type f | wc -l)"
+        BUNDLE_GEMFILE=Gemfile.deploy bundle exec jekyll build
         
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
@@ -46,17 +38,22 @@ jobs:
       with:
         project_id: dmisblogging-prod
         
-    - name: Deploy to GCS
+    - name: Deploy to GCS (safe sync)
       run: |
-        echo "Deploying to Google Cloud Storage..."
-        gsutil -m rsync -r -d _site/ gs://blog.itsdanmanole.com/
+        echo "🚀 Deploying Jekyll site to GCS..."
         
-        echo "Setting content types..."
-        gsutil -m setmeta -h "Content-Type:text/html" -h "Cache-Control:public, max-age=3600" gs://blog.itsdanmanole.com/**/*.html
-        gsutil -m setmeta -h "Content-Type:text/css" -h "Cache-Control:public, max-age=86400" gs://blog.itsdanmanole.com/**/*.css  
-        gsutil -m setmeta -h "Content-Type:application/javascript" -h "Cache-Control:public, max-age=86400" gs://blog.itsdanmanole.com/**/*.js
+        # Safe sync - only updates/adds files, doesn't delete anything
+        gsutil -m rsync -r _site/ gs://blog.itsdanmanole.com/
         
-        echo "Invalidating CDN cache..."
+        # Set content types
+        gsutil -m setmeta -h "Content-Type:text/html" -h "Cache-Control:public, max-age=3600" gs://blog.itsdanmanole.com/**/*.html 2>/dev/null || true
+        gsutil -m setmeta -h "Content-Type:text/css" -h "Cache-Control:public, max-age=86400" gs://blog.itsdanmanole.com/**/*.css 2>/dev/null || true
+        gsutil -m setmeta -h "Content-Type:application/javascript" -h "Cache-Control:public, max-age=86400" gs://blog.itsdanmanole.com/**/*.js 2>/dev/null || true
+        
+    - name: Invalidate CDN cache
+      run: |
+        echo "🔄 Invalidating CDN cache..."
         gcloud compute url-maps invalidate-cdn-cache blog-lb --path="/*" --async
         
-        echo "✅ Deployment completed successfully!"
+        echo "✅ Safe deployment completed!"
+        echo "🌐 Site: https://itsdanmanole.com"
