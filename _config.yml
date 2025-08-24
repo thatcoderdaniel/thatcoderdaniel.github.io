@@ -10,8 +10,6 @@ listen_for_clients_preferred_style: true
 show_style_switcher: true
 
 navigation:
-  - title: "Home"
-    url: "/"
   - title: "Archive"
     url: "/archive.html"
 
