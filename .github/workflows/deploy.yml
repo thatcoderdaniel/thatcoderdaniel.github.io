@@ -21,9 +21,16 @@ jobs:
         ruby-version: '3.1'
         bundler-cache: true
         
-    - name: Install Ruby dependencies
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
       run: |
         BUNDLE_GEMFILE=Gemfile.simple bundle install
+        npm install
         
     - name: Build Jekyll site
       run: BUNDLE_GEMFILE=Gemfile.simple bundle exec jekyll build
