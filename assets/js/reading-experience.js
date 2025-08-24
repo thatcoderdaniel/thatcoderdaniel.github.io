@@ -231,5 +231,5 @@ class BackToTop {
 document.addEventListener('DOMContentLoaded', () => {
   new ReadingProgress();
   new TableOfContents();
-  new BackToTop();
+  // new BackToTop(); // Disabled - user doesn't want the back-to-top button
 });
