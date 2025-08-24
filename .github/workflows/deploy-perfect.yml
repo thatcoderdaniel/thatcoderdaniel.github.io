@@ -88,8 +88,10 @@ jobs:
           --cache-control="public,max-age=86400"
         
         # Other assets - very long cache
-        gcloud storage objects update gs://${{ env.GCS_BUCKET }}/**/*.{png,jpg,jpeg,gif,svg,woff,woff2} \
-          --cache-control="public,max-age=31536000" 2>/dev/null || true
+        for ext in png jpg jpeg gif svg woff woff2; do
+          gcloud storage objects update "gs://${{ env.GCS_BUCKET }}/**/*.$ext" \
+            --cache-control="public,max-age=31536000" 2>/dev/null || true
+        done
           
         # Secure admin directory
         gcloud storage objects update gs://${{ env.GCS_BUCKET }}/admin/** \
