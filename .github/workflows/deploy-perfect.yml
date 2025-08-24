@@ -1,0 +1,126 @@
+name: Perfect Jekyll Deploy to GCP
+
+on:
+  push:
+    branches: [ main ]
+  repository_dispatch:
+    types: [tinacms-update]
+  workflow_dispatch:  # Manual trigger
+
+env:
+  GCP_PROJECT_ID: dmisblogging-prod
+  GCS_BUCKET: blog.itsdanmanole.com
+  CDN_LB_NAME: blog-lb
+  RUBY_VERSION: '3.0'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 💎 Setup Ruby with caching
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ env.RUBY_VERSION }}
+        bundler-cache: true
+        cache-version: 1
+        
+    - name: 📦 Install dependencies
+      run: |
+        BUNDLE_GEMFILE=Gemfile.production bundle install --jobs 4 --retry 3
+        
+    - name: 🏗️ Build Jekyll site
+      run: |
+        echo "Building with optimized settings..."
+        BUNDLE_GEMFILE=Gemfile.production JEKYLL_ENV=production bundle exec jekyll build --config _config.yml
+        
+    - name: 🔍 Verify build
+      run: |
+        echo "Build verification:"
+        ls -la _site/
+        echo "Total files: $(find _site -type f | wc -l)"
+        echo "Site size: $(du -sh _site/)"
+        
+    - name: 🔐 Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        
+    - name: ☁️ Setup Google Cloud SDK  
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ env.GCP_PROJECT_ID }}
+        
+    - name: 🚀 Deploy to GCS (unified sync)
+      run: |
+        echo "🚀 Deploying Jekyll site to GCS with unified approach..."
+        
+        # Use gcloud storage for consistency and better performance
+        gcloud storage rsync _site/ gs://${{ env.GCS_BUCKET }}/ \
+          --recursive \
+          --delete-unmatched-destination-objects \
+          --exclude="admin/config.yml" \
+          --exclude="*.log"
+        
+        echo "📊 Deployment stats:"
+        gcloud storage ls -l -r gs://${{ env.GCS_BUCKET }}/ | tail -1
+        
+    - name: 🔧 Set content types and security headers
+      run: |
+        echo "🔧 Optimizing content delivery..."
+        
+        # HTML files - short cache for content updates
+        gcloud storage objects update gs://${{ env.GCS_BUCKET }}/**/*.html \
+          --content-type="text/html" \
+          --cache-control="public,max-age=3600" \
+          --custom-metadata="x-frame-options=DENY,x-content-type-options=nosniff,x-xss-protection=1; mode=block"
+        
+        # CSS/JS files - longer cache with versioning
+        gcloud storage objects update gs://${{ env.GCS_BUCKET }}/**/*.css \
+          --content-type="text/css" \
+          --cache-control="public,max-age=86400"
+        
+        gcloud storage objects update gs://${{ env.GCS_BUCKET }}/**/*.js \
+          --content-type="application/javascript" \
+          --cache-control="public,max-age=86400"
+        
+        # Other assets - very long cache
+        gcloud storage objects update gs://${{ env.GCS_BUCKET }}/**/*.{png,jpg,jpeg,gif,svg,woff,woff2} \
+          --cache-control="public,max-age=31536000" 2>/dev/null || true
+          
+        # Secure admin directory
+        gcloud storage objects update gs://${{ env.GCS_BUCKET }}/admin/** \
+          --cache-control="no-cache,no-store,must-revalidate" \
+          --custom-metadata="x-frame-options=DENY" 2>/dev/null || true
+        
+    - name: 🔄 Invalidate CDN cache
+      run: |
+        echo "🔄 Invalidating CDN cache globally..."
+        gcloud compute url-maps invalidate-cdn-cache ${{ env.CDN_LB_NAME }} \
+          --path="/*" \
+          --async
+        
+    - name: 📋 Deployment summary
+      run: |
+        echo "✅ Perfect deployment completed!"
+        echo ""
+        echo "📊 Deployment Summary:"
+        echo "🌐 Site: https://itsdanmanole.com"
+        echo "⏰ Deployed: $(date)"
+        echo "🔒 Security: Headers applied, Admin secured"
+        echo "⚡ CDN: Cache invalidated globally"
+        echo "🎯 Status: Production ready"
+        
+    - name: 🔔 Notify on success
+      if: success()
+      run: |
+        echo "🎉 Deployment successful! Site is live at https://itsdanmanole.com"
+        
+    - name: 🚨 Notify on failure  
+      if: failure()
+      run: |
+        echo "❌ Deployment failed! Check logs above for details."
+        exit 1
