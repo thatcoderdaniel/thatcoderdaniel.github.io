@@ -18,15 +18,27 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.0'
-        bundler-cache: false
+        bundler-cache: true
+        cache-version: 1
+        
+    - name: Debug environment
+      run: |
+        echo "Ruby version: $(ruby --version)"
+        echo "Bundler version: $(bundle --version)"
+        echo "Available Gemfiles:"
+        ls -la Gemfile*
+        echo "Gemfile.production content:"
+        cat Gemfile.production
         
     - name: Install Jekyll dependencies
       run: |
-        BUNDLE_GEMFILE=Gemfile.production bundle install --jobs 4 --retry 3
+        echo "Installing gems from Gemfile.production..."
+        BUNDLE_GEMFILE=Gemfile.production bundle install --jobs 4 --retry 3 --verbose
         
     - name: Build Jekyll site
       run: |
-        BUNDLE_GEMFILE=Gemfile.production JEKYLL_ENV=production bundle exec jekyll build
+        echo "Building Jekyll site..."
+        BUNDLE_GEMFILE=Gemfile.production JEKYLL_ENV=production bundle exec jekyll build --verbose
         
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
