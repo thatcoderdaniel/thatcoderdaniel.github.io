@@ -18,16 +18,25 @@ jobs:
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.1'
-        bundler-cache: true
+        ruby-version: '3.0'
+        bundler-cache: false
         
     - name: Install Ruby dependencies
       run: |
-        BUNDLE_GEMFILE=Gemfile.simple bundle install
+        echo "Using Gemfile.simple for deployment..."
+        BUNDLE_GEMFILE=Gemfile.simple bundle install --jobs 4 --retry 3
         
     - name: Build Jekyll site
-      run: BUNDLE_GEMFILE=Gemfile.simple bundle exec jekyll build
+      run: |
+        echo "Building Jekyll site..."
+        BUNDLE_GEMFILE=Gemfile.simple bundle exec jekyll build --verbose
       
+    - name: Verify build output
+      run: |
+        echo "Checking _site directory..."
+        ls -la _site/
+        echo "Build completed successfully"
+        
     - name: Authenticate to Google Cloud
       uses: google-github-actions/auth@v2
       with:
@@ -38,16 +47,26 @@ jobs:
       with:
         project_id: dmisblogging-prod
         
+    - name: Verify GCP authentication
+      run: |
+        echo "Testing GCP authentication..."
+        gcloud auth list
+        gcloud config list
+        gsutil ls gs://blog.itsdanmanole.com/ | head -5
+        
     - name: Deploy to GCS and invalidate CDN
       run: |
+        echo "Starting deployment to GCS..."
         # Upload to Google Cloud Storage
         gsutil -m rsync -r -d _site/ gs://blog.itsdanmanole.com/
         
+        echo "Setting content types..."
         # Set content types
         gsutil -m setmeta -h "Content-Type:text/html" -h "Cache-Control:public, max-age=3600" gs://blog.itsdanmanole.com/**/*.html
         gsutil -m setmeta -h "Content-Type:text/css" -h "Cache-Control:public, max-age=86400" gs://blog.itsdanmanole.com/**/*.css
         gsutil -m setmeta -h "Content-Type:application/javascript" -h "Cache-Control:public, max-age=86400" gs://blog.itsdanmanole.com/**/*.js
         
+        echo "Invalidating CDN cache..."
         # Invalidate CDN cache
         gcloud compute url-maps invalidate-cdn-cache blog-lb --path="/*" --async
         
