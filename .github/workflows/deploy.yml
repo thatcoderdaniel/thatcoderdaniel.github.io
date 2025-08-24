@@ -27,12 +27,12 @@ jobs:
         echo "Bundler version: $(bundle --version)"
         echo "Available Gemfiles:"
         ls -la Gemfile*
-        echo "Gemfile.production content:"
-        cat Gemfile.production
+        echo "Gemfile.deploy content:"
+        cat Gemfile.deploy
         
     - name: Install Jekyll dependencies
       run: |
-        echo "Installing gems from Gemfile.production..."
+        echo "Installing gems from Gemfile.deploy..."
         BUNDLE_GEMFILE=Gemfile.deploy bundle install --jobs 4 --retry 3
         
     - name: Build Jekyll site
