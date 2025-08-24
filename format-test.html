@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Android Format Test - Docker Post</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="/assets/js/theme-toggle.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <a href="/" class="site-logo">
+          <span class="logo-text">Android Format Test</span>
+        </a>
+      </div>
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+        <span class="theme-text">Theme</span>
+      </button>
+    </nav>
+  </header>
+  
+  <main>
+    <article>
+      <header>
+        <h1>Android Format Test - Docker Post Sample</h1>
+      </header>
+      
+      <div>
+        <p>Testing formatting issues that might appear on Android devices.</p>
+        
+        <h2>Path/Prompt Test</h2>
+        <p>A program and then I see <code>admin@docker-host</code> ➜ command overlapping on word <strong>fails</strong>. Test if this overlaps.</p>
+        
+        <h2>Long Path Test</h2>
+        <p>Path like <code>/home/admin/kihei</code> should not overlap with surrounding text on mobile devices.</p>
+        
+        <h2>Code Block Test</h2>
+<pre><code>admin@docker-host ➜ docker compose up
+Compose now can delegate build to bake for better performances
+Just set COMPOSE_BAKE=true
+[+] Building 74.0s (15/15) FINISHED                                            docker:default
+ => [web internal] load build definition from Dockerfile                                 0.1s
+ => => transferring dockerfile: 332B                                                     0.1s
+</code></pre>
+        
+        <h2>Inline Code Test</h2>
+        <p>Commands like <code>docker inspect &lt;id&gt;</code> should be properly formatted.</p>
+        
+        <h2>Mixed Content Test</h2>
+        <p>Here's some text with <code>admin@docker-host</code> followed by more text to see if it wraps properly on mobile.</p>
+        
+        <div style="border: 2px solid red; padding: 10px; margin: 20px 0;">
+          <strong>Red Border Test</strong><br>
+          This red border should be visible on both desktop and mobile. If you don't see it, there's a CSS issue.
+        </div>
+      </div>
+    </article>
+  </main>
+  
+  <footer style="text-align: center; padding: 2rem 0; color: var(--text-light);">
+    <small>© 2025 Format Test</small>
+  </footer>
+  
+  <script src="/assets/js/reading-experience.js"></script>
+</body>
+</html>

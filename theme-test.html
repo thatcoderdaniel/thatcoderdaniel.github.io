@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Theme Toggle Test - Android</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="/assets/js/theme-toggle.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <a href="/" class="site-logo">
+          <span class="logo-text">Theme Test</span>
+        </a>
+      </div>
+      <button class="theme-toggle" aria-label="Toggle theme" role="button" tabindex="0">
+        <span class="theme-icon" aria-hidden="true">🌙</span>
+        <span class="theme-text">Theme</span>
+      </button>
+    </nav>
+  </header>
+  
+  <main>
+    <article>
+      <header>
+        <h1>Theme Toggle Debug Test</h1>
+      </header>
+      
+      <div>
+        <h2>Current Theme Status</h2>
+        <div id="theme-debug" style="border: 2px solid red; padding: 15px; margin: 20px 0; font-family: monospace;">
+          <strong>Debug Info:</strong><br>
+          <span id="current-theme">Loading...</span><br>
+          <span id="body-class">Loading...</span><br>
+          <span id="html-attr">Loading...</span><br>
+          <span id="local-storage">Loading...</span>
+        </div>
+        
+        <h2>Theme Test Content</h2>
+        <p>This text should change color when you toggle the theme.</p>
+        
+        <h3>Code Block Test</h3>
+        <pre><code>console.log('This code block should change background');
+if (theme === 'dark') {
+  background = 'black';
+  color = 'white';
+}</code></pre>
+        
+        <h3>Link Test</h3>
+        <p>This <a href="#test">link color</a> should change with theme.</p>
+        
+        <div style="margin-top: 30px;">
+          <button onclick="testThemeToggle()" style="padding: 10px 15px; font-size: 16px;">
+            Manual Theme Test
+          </button>
+        </div>
+      </div>
+    </article>
+  </main>
+  
+  <script>
+    function updateDebugInfo() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'none';
+      const bodyClass = document.body.className || 'none';
+      const localStorage = window.localStorage.getItem('theme-preference') || 'none';
+      
+      document.getElementById('current-theme').textContent = `data-theme: ${currentTheme}`;
+      document.getElementById('body-class').textContent = `body.className: ${bodyClass}`;
+      document.getElementById('html-attr').textContent = `html[data-theme]: ${currentTheme}`;
+      document.getElementById('local-storage').textContent = `localStorage: ${localStorage}`;
+    }
+    
+    function testThemeToggle() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', next);
+      document.body.className = next;
+      localStorage.setItem('theme-preference', next);
+      
+      // Update toggle button
+      document.querySelectorAll('.theme-toggle').forEach(toggle => {
+        const icon = toggle.querySelector('.theme-icon');
+        const text = toggle.querySelector('.theme-text');
+        
+        if (icon) {
+          icon.textContent = next === 'dark' ? '☀️' : '🌙';
+        }
+        if (text) {
+          text.textContent = next === 'dark' ? 'Light' : 'Dark';
+        }
+        
+        toggle.setAttribute('aria-label', `Switch to ${next === 'dark' ? 'light' : 'dark'} mode`);
+      });
+      
+      updateDebugInfo();
+    }
+    
+    // Update debug info every second
+    setInterval(updateDebugInfo, 1000);
+    
+    // Initial update
+    setTimeout(updateDebugInfo, 500);
+    
+    // Log touch events for debugging
+    document.querySelectorAll('.theme-toggle').forEach(toggle => {
+      toggle.addEventListener('touchstart', function(e) {
+        console.log('Touch start detected');
+      });
+      
+      toggle.addEventListener('touchend', function(e) {
+        console.log('Touch end detected');
+      });
+      
+      toggle.addEventListener('click', function(e) {
+        console.log('Click detected');
+        updateDebugInfo();
+      });
+    });
+  </script>
+</body>
+</html>

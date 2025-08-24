@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Dark Mode Code Block Test</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script src="/assets/js/theme-toggle.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div>
+        <a href="/" class="site-logo">
+          <span class="logo-text">Dark Code Test</span>
+        </a>
+      </div>
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+        <span class="theme-text">Theme</span>
+      </button>
+    </nav>
+  </header>
+  
+  <main>
+    <article>
+      <header>
+        <h1>Dark Mode Code Block Test</h1>
+      </header>
+      
+      <div>
+        <p>Testing code blocks in both light and dark modes. Switch themes to test visibility.</p>
+        
+        <h2>Inline Code Test</h2>
+        <p>Commands like <code>admin@docker-host</code> and paths like <code>/home/admin/kihei</code> should be visible in both themes.</p>
+        
+        <h2>Multi-line Code Block Test</h2>
+<pre><code>admin@docker-host ➜ docker compose up
+Compose now can delegate build to bake for better performances
+Just set COMPOSE_BAKE=true
+[+] Building 74.0s (15/15) FINISHED                                            docker:default
+ => [web internal] load build definition from Dockerfile                                 0.1s
+ => => transferring dockerfile: 332B                                                     0.1s</code></pre>
+
+        <h2>Docker Output Test</h2>
+<pre><code>FROM python:3.10-alpine
+WORKDIR /code
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+COPY . .
+CMD ["flask", "run", "--debug"]</code></pre>
+
+        <h3>Premium Dark Mode Experience</h3>
+        <div style="border: 2px solid #007acc; padding: 15px; margin: 20px 0; border-radius: 6px;">
+          <strong>Enhanced:</strong> Dark mode now features premium styling with:<br>
+          • Subtle borders and shadows for depth<br>
+          • Better contrast ratios for readability<br>
+          • Consistent dark theme colors throughout<br>
+          • Professional appearance matching modern code editors
+        </div>
+        
+        <p>Toggle between themes to experience the premium dark mode upgrade!</p>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
