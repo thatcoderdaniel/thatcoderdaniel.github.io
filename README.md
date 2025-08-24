@@ -9,7 +9,7 @@ Personal blog showcasing cloud infrastructure, DevOps practices, and technical t
 - **Frontend**: Jekyll static site generator with no-style-please theme
 - **CMS**: TinaCMS for content management
 - **Hosting**: Google Cloud Storage + Cloud CDN
-- **CI/CD**: Custom deployment script with automated builds
+- **CI/CD**: GitHub Actions with automated GCP deployments
 - **Theme**: Custom dark/light mode with professional styling
 
 ## 🚀 Quick Start
