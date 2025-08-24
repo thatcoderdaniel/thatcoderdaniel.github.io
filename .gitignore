@@ -1,12 +1,6 @@
-_site
-.sass-cache
-.jekyll-cache
-.jekyll-metadata
-vendor
-
-Gemfile.lock
-
-node_modules
-.env.env
+*/
+_site/
+node_modules/
+google-cloud-sdk/
 .env
 *.env
