@@ -170,7 +170,15 @@ bundle exec jekyll clean
 
 ## 📋 Changelog
 
-### v3.0.0 - February 2025 (Current)
+### v3.1.0 - August 2025 (Current)
+**🚀 GitHub Actions CI/CD Automation**
+- **Automated Deployment**: Complete GitHub Actions workflow for seamless TinaCMS integration
+- **Dependency Management**: Optimized Gemfile.deploy for reliable CI/CD builds
+- **Safe File Sync**: Smart deployment that preserves system files while updating site content
+- **Error Resolution**: Fixed bundle install issues and Node.js dependency conflicts
+- **Production Ready**: Bulletproof automation from TinaCMS updates to live deployment
+
+### v3.0.0 - February 2025
 **🎨 Major Theme & UX Overhaul**
 - **Premium Dark Mode**: Professional dark theme with enhanced code blocks, subtle shadows, and VS Code-like styling
 - **Navigation Redesign**: Removed redundant "Home" button, added professional black button styling for Archive
