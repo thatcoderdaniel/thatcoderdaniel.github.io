@@ -1,6 +1,23 @@
-*/
+# Build directories
 _site/
 node_modules/
+
+# System files  
 google-cloud-sdk/
+
+# Security - Never commit secrets
 .env
 *.env
+*.key
+*-key.json
+github-actions-key.json
+service-account*.json
+credentials*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
