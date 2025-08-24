@@ -1,0 +1,45 @@
+steps:
+  # Install Ruby and Bundler
+  - name: 'ruby:3.1'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gem install bundler
+        bundle install
+        
+  # Install Node.js dependencies
+  - name: 'node:18'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        npm install
+        
+  # Build Jekyll site
+  - name: 'ruby:3.1'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        bundle exec jekyll build
+        
+  # Deploy to GCS
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'rsync', '-r', '-d', '_site/', 'gs://blog.itsdanmanole.com/']
+    
+  # Set proper content types
+  - name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gsutil -m setmeta -h "Content-Type:text/html" -h "Cache-Control:public, max-age=3600" gs://blog.itsdanmanole.com/**/*.html
+        gsutil -m setmeta -h "Content-Type:text/css" -h "Cache-Control:public, max-age=86400" gs://blog.itsdanmanole.com/**/*.css
+        gsutil -m setmeta -h "Content-Type:application/javascript" -h "Cache-Control:public, max-age=86400" gs://blog.itsdanmanole.com/**/*.js
+        
+  # Invalidate CDN cache
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['compute', 'url-maps', 'invalidate-cdn-cache', 'blog-lb', '--path=/*', '--async']
+
+timeout: 1200s
