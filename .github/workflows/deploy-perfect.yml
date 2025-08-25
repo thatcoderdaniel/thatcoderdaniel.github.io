@@ -15,18 +15,24 @@ env:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     
     steps:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
       
-    - name: 💎 Setup Ruby with caching
+    - name: 💎 Setup Ruby (force fresh install)
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.2'
-        bundler-cache: true
-        cache-version: 2
+        ruby-version: '3.2.6'
+        bundler-cache: false
+        
+    - name: 🔍 Verify Ruby version
+      run: |
+        echo "Ruby version: $(ruby -v)"
+        echo "Gem version: $(gem -v)"
+        echo "Bundler path: $(which bundle)"
+        ruby -v | grep "3\.2\." || (echo "❌ Wrong Ruby version!" && exit 1)
         
     - name: 📦 Install dependencies
       run: |
