@@ -3,7 +3,7 @@ import { defineConfig } from "tinacms";
 export default defineConfig({
   branch: "main",
   clientId: "9bfcf669-7231-44be-b3e6-580a99327d51",
-  token: "temp_local_token", // Temporary for build
+  token: process.env.TINA_TOKEN,
   
   build: {
     outputFolder: "admin",
