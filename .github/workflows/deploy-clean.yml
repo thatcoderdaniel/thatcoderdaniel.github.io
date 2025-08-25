@@ -24,31 +24,16 @@ jobs:
         sudo rm -rf ~/.gem/
         sudo rm -rf /home/runner/.gem/
         
-    - name: 💎 Setup Ruby (FRESH INSTALL)
+    - name: 💎 Setup Ruby 
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.1
-        bundler-cache: false
+        ruby-version: 3.2
+        bundler-cache: true
         
-    - name: 🔍 Verify Ruby version
+    - name: 📦 Verify bundle install
       run: |
-        echo "=== RUBY VERSION CHECK ==="
-        ruby -v
-        gem -v
-        which ruby
-        which gem
-        echo "==========================="
-        
-    - name: 🔧 Install compatible bundler
-      run: |
-        gem install bundler -v 2.4.22 --no-document
-        bundler -v
-        echo "Using bundler 2.4.22 which works with Ruby 3.1+"
-        
-    - name: 📦 Install dependencies
-      run: |
-        bundle config set --local path 'vendor/bundle'
-        bundle install --jobs 4 --retry 3
+        bundle --version
+        bundle check || bundle install
         
     - name: 🏗️ Build Jekyll site
       run: |
