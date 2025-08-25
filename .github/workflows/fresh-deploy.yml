@@ -1,0 +1,40 @@
+name: Fresh Jekyll Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Ruby 3.2
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2.0'
+        bundler-cache: true
+        
+    - name: Build site
+      run: bundle exec jekyll build
+      
+    - name: Deploy to GCS
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        
+    - name: Setup gcloud
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: dmisblogging-prod
+        
+    - name: Sync to bucket
+      run: |
+        gcloud storage rsync _site/ gs://blog.itsdanmanole.com/ --recursive --delete-unmatched-destination-objects
+        
+    - name: Invalidate CDN
+      run: |
+        gcloud compute url-maps invalidate-cdn-cache blog-lb --path="/*" --async
