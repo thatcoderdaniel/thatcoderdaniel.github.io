@@ -67,22 +67,27 @@ jobs:
         echo "📁 _site contents:"
         find _site -type f | head -10 || echo "❌ No files in _site"
         
-        # Check GCS bucket access
+        # Check authentication
+        echo "🔍 Testing authentication:"
+        gcloud auth list
+        
+        # Check GCS bucket access with more verbose logging
         echo "🔍 Testing GCS bucket access:"
-        gcloud storage ls gs://${{ env.GCS_BUCKET }}/ || echo "❌ Cannot access GCS bucket"
+        gcloud storage ls gs://${{ env.GCS_BUCKET }}/ --verbosity=info || {
+          echo "❌ Cannot access GCS bucket"
+          echo "Project ID: ${{ env.GCP_PROJECT_ID }}"
+          echo "Bucket: ${{ env.GCS_BUCKET }}"
+          exit 1
+        }
         
         # Use gcloud storage for consistency and better performance
         echo "🚀 Starting rsync to GCS..."
-        if gcloud storage rsync _site/ gs://${{ env.GCS_BUCKET }}/ \
+        gcloud storage rsync _site/ gs://${{ env.GCS_BUCKET }}/ \
           --recursive \
           --delete-unmatched-destination-objects \
           --exclude="admin/config.yml" \
-          --exclude="*.log"; then
-          echo "✅ GCS sync completed successfully"
-        else
-          echo "❌ GCS sync failed with exit code $?"
-          exit 1
-        fi
+          --exclude="*.log" \
+          --verbosity=info
         
         echo "📊 Deployment stats:"
         gcloud storage ls -l -r gs://${{ env.GCS_BUCKET }}/ | tail -1
