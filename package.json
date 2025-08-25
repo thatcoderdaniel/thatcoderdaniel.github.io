@@ -1,8 +1,0 @@
-{
-  "name": "thatcoderdaniel-blog",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "bundle exec jekyll serve",
-    "build": "bundle exec jekyll build"
-  }
-}

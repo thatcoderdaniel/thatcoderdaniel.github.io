@@ -24,12 +24,9 @@ jobs:
     - name: 💎 Setup Ruby with caching
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.2.0'
-        bundler-cache: false
-        
-    - name: 🔧 Install compatible bundler
-      run: |
-        gem install bundler -v '2.7.1'
+        ruby-version: '3.2'
+        bundler-cache: true
+        cache-version: 2
         
     - name: 📦 Install dependencies
       run: |
