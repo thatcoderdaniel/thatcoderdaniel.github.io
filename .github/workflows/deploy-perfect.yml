@@ -1,11 +1,7 @@
-name: Perfect Jekyll Deploy to GCP
+name: Perfect Jekyll Deploy to GCP [DISABLED]
 
 on:
-  push:
-    branches: [ main ]
-  repository_dispatch:
-    types: [tinacms-update]
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:  # Manual trigger only
 
 env:
   GCP_PROJECT_ID: dmisblogging-prod

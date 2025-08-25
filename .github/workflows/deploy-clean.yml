@@ -1,0 +1,99 @@
+name: Clean Jekyll Deploy to GCP
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  GCP_PROJECT_ID: dmisblogging-prod
+  GCS_BUCKET: blog.itsdanmanole.com
+  CDN_LB_NAME: blog-lb
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🗑️ Clear Ruby cache completely
+      run: |
+        sudo rm -rf /opt/hostedtoolcache/Ruby/
+        sudo rm -rf ~/.gem/
+        sudo rm -rf /home/runner/.gem/
+        
+    - name: 💎 Setup Ruby (FRESH INSTALL)
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.3.0
+        bundler-cache: false
+        
+    - name: 🔍 Verify Ruby version (FAIL IF WRONG)
+      run: |
+        echo "=== RUBY VERSION CHECK ==="
+        ruby -v
+        gem -v
+        which ruby
+        which gem
+        echo "==========================="
+        if ! ruby -v | grep -q "3\.[3-9]\."; then
+          echo "❌ WRONG RUBY VERSION! Expected 3.3+, got:"
+          ruby -v
+          exit 1
+        fi
+        echo "✅ Ruby version is correct!"
+        
+    - name: 🔧 Install bundler manually
+      run: |
+        gem install bundler --no-document
+        bundler -v
+        
+    - name: 📦 Install dependencies
+      run: |
+        bundle config set --local path 'vendor/bundle'
+        bundle install --jobs 4 --retry 3
+        
+    - name: 🏗️ Build Jekyll site
+      run: |
+        echo "Building Jekyll site..."
+        JEKYLL_ENV=production bundle exec jekyll build --config _config.yml
+        
+    - name: 🔍 Verify build
+      run: |
+        echo "Build verification:"
+        ls -la _site/
+        echo "Admin page exists:"
+        ls -la _site/admin/
+        
+    - name: 🔐 Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        
+    - name: ☁️ Setup Google Cloud SDK  
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ env.GCP_PROJECT_ID }}
+        
+    - name: 🚀 Deploy to GCS
+      run: |
+        echo "🚀 Deploying to GCS..."
+        gcloud storage rsync _site/ gs://${{ env.GCS_BUCKET }}/ \
+          --recursive \
+          --delete-unmatched-destination-objects \
+          --exclude="*.log"
+        
+    - name: 🔄 Invalidate CDN cache
+      run: |
+        echo "🔄 Invalidating CDN cache..."
+        gcloud compute url-maps invalidate-cdn-cache ${{ env.CDN_LB_NAME }} \
+          --path="/*" \
+          --async || echo "CDN invalidation failed but deployment succeeded"
+        
+    - name: ✅ Success
+      run: |
+        echo "🎉 Deployment completed successfully!"
+        echo "🌐 Site: https://itsdanmanole.com"
+        echo "🔧 Admin: https://itsdanmanole.com/admin"
