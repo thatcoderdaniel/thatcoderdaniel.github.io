@@ -1,23 +1,36 @@
-name: Fresh Jekyll Deploy (DISABLED)
+name: Nuclear Jekyll Deploy
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Ruby 3.2
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.2.0'
-        bundler-cache: false
+    - name: Remove any cached Ruby/Bundler
+      run: |
+        sudo rm -rf /opt/hostedtoolcache/Ruby || true
+        sudo rm -rf ~/.bundle || true
+        sudo rm -rf vendor/bundle || true
+    
+    - name: Install Ruby 3.2 manually
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ruby3.2 ruby3.2-dev build-essential
+        sudo gem install bundler --version 2.4.22
+        ruby --version
+        bundler --version
         
-    - name: Install dependencies
-      run: bundle install
+    - name: Install dependencies with specific bundler
+      run: |
+        export PATH="/usr/bin:$PATH"
+        bundle config set --local path 'vendor/bundle'
+        bundle install
         
     - name: Build site
       run: bundle exec jekyll build
