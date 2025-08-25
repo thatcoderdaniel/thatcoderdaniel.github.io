@@ -35,7 +35,8 @@ jobs:
         echo "Installing gems from Gemfile.deploy..."
         # Remove existing lockfile to avoid version conflicts
         rm -f Gemfile.deploy.lock
-        BUNDLE_GEMFILE=Gemfile.deploy bundle install --jobs 4 --retry 3
+        # Install without deployment mode to allow lockfile generation
+        BUNDLE_GEMFILE=Gemfile.deploy bundle install --jobs 4 --retry 3 --no-deployment
         
     - name: Build Jekyll site
       run: |
