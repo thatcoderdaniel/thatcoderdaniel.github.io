@@ -3,7 +3,7 @@ import { defineConfig } from "tinacms";
 export default defineConfig({
   branch: "main",
   clientId: "9bfcf669-7231-44be-b3e6-580a99327d51",
-  token: process.env.TINA_TOKEN, // Moved to environment variable for security
+  token: "temp_local_token", // Temporary for build
   
   build: {
     outputFolder: "admin",
@@ -42,9 +42,19 @@ export default defineConfig({
           },
         },
         defaultItem: () => {
+          const now = new Date();
+          // Format as Jekyll expects: "2025-08-25 10:30:00 -0500"
+          const year = now.getFullYear();
+          const month = String(now.getMonth() + 1).padStart(2, '0');
+          const day = String(now.getDate()).padStart(2, '0');
+          const hours = String(now.getHours()).padStart(2, '0');
+          const minutes = String(now.getMinutes()).padStart(2, '0');
+          const seconds = String(now.getSeconds()).padStart(2, '0');
+          const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} -0500`;
+          
           return {
             layout: 'post',
-            date: new Date().toISOString(),
+            date: formattedDate,
           }
         },
         fields: [
@@ -63,16 +73,25 @@ export default defineConfig({
             required: true,
           },
           {
-            type: "datetime",
+            type: "string",
             name: "date",
             label: "Date",
             required: true,
+            description: "Format: YYYY-MM-DD HH:MM:SS -0500",
           },
           {
             type: "string",
             name: "categories",
             label: "Categories",
             required: false,
+            description: "Space-separated (e.g., 'devops cloud tutorial')",
+          },
+          {
+            type: "string",
+            name: "description",
+            label: "Description",
+            required: false,
+            description: "SEO description for the post",
           },
           {
             type: "image",
