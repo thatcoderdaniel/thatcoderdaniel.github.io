@@ -58,12 +58,28 @@ jobs:
       run: |
         echo "🚀 Deploying Jekyll site to GCS with unified approach..."
         
+        # Debug: Check if _site directory exists and has content
+        echo "🔍 Checking _site directory:"
+        ls -la _site/ || echo "❌ _site directory not found"
+        echo "📁 _site contents:"
+        find _site -type f | head -10 || echo "❌ No files in _site"
+        
+        # Check GCS bucket access
+        echo "🔍 Testing GCS bucket access:"
+        gcloud storage ls gs://${{ env.GCS_BUCKET }}/ || echo "❌ Cannot access GCS bucket"
+        
         # Use gcloud storage for consistency and better performance
-        gcloud storage rsync _site/ gs://${{ env.GCS_BUCKET }}/ \
+        echo "🚀 Starting rsync to GCS..."
+        if gcloud storage rsync _site/ gs://${{ env.GCS_BUCKET }}/ \
           --recursive \
           --delete-unmatched-destination-objects \
           --exclude="admin/config.yml" \
-          --exclude="*.log"
+          --exclude="*.log"; then
+          echo "✅ GCS sync completed successfully"
+        else
+          echo "❌ GCS sync failed with exit code $?"
+          exit 1
+        fi
         
         echo "📊 Deployment stats:"
         gcloud storage ls -l -r gs://${{ env.GCS_BUCKET }}/ | tail -1
