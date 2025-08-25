@@ -27,10 +27,10 @@ jobs:
     - name: 💎 Setup Ruby (FRESH INSTALL)
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.3.0
+        ruby-version: 3.1
         bundler-cache: false
         
-    - name: 🔍 Verify Ruby version (FAIL IF WRONG)
+    - name: 🔍 Verify Ruby version
       run: |
         echo "=== RUBY VERSION CHECK ==="
         ruby -v
@@ -38,17 +38,12 @@ jobs:
         which ruby
         which gem
         echo "==========================="
-        if ! ruby -v | grep -q "3\.[3-9]\."; then
-          echo "❌ WRONG RUBY VERSION! Expected 3.3+, got:"
-          ruby -v
-          exit 1
-        fi
-        echo "✅ Ruby version is correct!"
         
-    - name: 🔧 Install bundler manually
+    - name: 🔧 Install compatible bundler
       run: |
-        gem install bundler --no-document
+        gem install bundler -v 2.4.22 --no-document
         bundler -v
+        echo "Using bundler 2.4.22 which works with Ruby 3.1+"
         
     - name: 📦 Install dependencies
       run: |
