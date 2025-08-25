@@ -11,7 +11,7 @@ env:
   GCP_PROJECT_ID: dmisblogging-prod
   GCS_BUCKET: blog.itsdanmanole.com
   CDN_LB_NAME: blog-lb
-  RUBY_VERSION: '3.1'
+  RUBY_VERSION: '3.2'
 
 jobs:
   deploy:
@@ -25,17 +25,16 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ env.RUBY_VERSION }}
-        bundler-cache: true
-        cache-version: 1
+        bundler-cache: false
         
     - name: 📦 Install dependencies
       run: |
-        BUNDLE_GEMFILE=Gemfile.production bundle install --jobs 4 --retry 3
+        bundle install --jobs 4 --retry 3
         
     - name: 🏗️ Build Jekyll site
       run: |
         echo "Building with optimized settings..."
-        BUNDLE_GEMFILE=Gemfile.production JEKYLL_ENV=production bundle exec jekyll build --config _config.yml
+        JEKYLL_ENV=production bundle exec jekyll build --config _config.yml
         
     - name: 🔍 Verify build
       run: |
