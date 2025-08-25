@@ -5,9 +5,15 @@
 
 echo "🚀 Starting deployment process..."
 
-# Set up environment
-export PATH=/data/data/com.termux/files/usr/bin:$PATH:/data/data/com.termux/files/usr/google-cloud-sdk/bin
-export CLOUDSDK_PYTHON=/data/data/com.termux/files/usr/bin/python
+# Set up environment - Auto-detect platform
+if [[ -d "/data/data/com.termux" ]]; then
+    # Termux/Android environment
+    export PATH=/data/data/com.termux/files/usr/bin:$PATH:/data/data/com.termux/files/usr/google-cloud-sdk/bin
+    export CLOUDSDK_PYTHON=/data/data/com.termux/files/usr/bin/python
+else
+    # Standard Linux/Windows/Mac environment - use system gcloud
+    export PATH=$PATH
+fi
 
 # Build the site
 echo "📦 Building Jekyll site..."
